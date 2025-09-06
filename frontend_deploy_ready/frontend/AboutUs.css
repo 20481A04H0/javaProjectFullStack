@@ -1,0 +1,94 @@
+
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+section.container {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 30px 0;
+  margin-bottom: 40px;
+}
+
+h2, h3 {
+  color: #1a237e;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+p {
+  color: #333;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+img[alt="about-us-img"],
+img[alt="education-concept"] {
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 991px) {
+  section.container {
+    padding: 25px 10px;
+  }
+  .col-md-5, .col-md-7 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+  .col-md-5 img, .col-md-12 img {
+    margin-bottom: 20px;
+  }
+}
+.icons-container{
+  margin: 8px;
+  padding-top: 8px;
+  padding-bottom: 14px;
+}
+  
+.icon {
+  color: #00449e;
+  font-size: 25px;
+}
+.icon:hover {
+  color: #0056b3;
+  cursor: pointer;
+}
+
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.navbar-brand img {
+  height: 70px;
+  width: auto;
+}
+
+.nav-link {
+  color: #000 !important;
+  margin-right: 15px;
+  font-weight: 500;
+}
+
+.btn-student-login {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 6px 14px;
+}
+
+.btn-student-login:hover {
+  background: #0056b3;
+  color: #fff;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | InfuSpark</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: #2c3e50; color: white; padding: 20px; }
+        .sidebar a { color: white; text-decoration: none; display: block; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .sidebar a:hover, .active-link { background: #34495e; }
+        .content { flex: 1; padding: 20px; }
+        .admin-profile { position: fixed; top: 20px; right: 20px; }
+        .admin-profile img { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .admin-info-card { position: absolute; top: 50px; right: 0; background: white; border: 1px solid #ddd; padding: 15px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none; min-width: 200px; }
+        .card-box { border-radius: 10px; }
+        .card-students { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .card-trainers { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .card-courses { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h4>InfuSpark</h4>
+            <a href="#" class="active-link" onclick="setActiveLink(this); showDashboard();"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="#" onclick="setActiveLink(this);"><i class="fas fa-user-graduate"></i> Students</a>
+            <a href="#" onclick="setActiveLink(this);"><i class="fas fa-chalkboard-teacher"></i> Trainers</a>
+            <a href="#" onclick="setActiveLink(this);"><i class="fas fa-book"></i> Courses</a>
+            <a href="#" onclick="logout();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        
+        <div class="content">
+            <div id="mainContent">
+                <h2 class="mb-4">Welcome Admin 👋</h2>
+                <p>Click Dashboard to load statistics.</p>
+            </div>
+        </div>
+        
+        <div class="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin" onclick="toggleAdminInfo()">
+            <div id="adminInfo" class="admin-info-card">
+                <p><strong>Name:</strong> <span id="adminName">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="adminEmail">Loading...</span></p>
+                <p><strong>Phone:</strong> <span id="adminPhone">Loading...</span></p>
+                <hr>
+                <button class="btn btn-sm btn-danger btn-block" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="AdminDashBoard-simple.js"></script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+:root {
+      --main-purple: rgb(0, 0, 64);
+      --main-pink: rgb(0, 64, 64);
+      --main-blue: rgb(0, 0, 64);
+      --main-yellow: #fff394;
+      --main-green: #a5efac;
+      --sidebar-shadow: 0 8px 38px 0 rgb(0, 0, 64, 0.17);
+      --card-glow: 0 12px 44px -10px rgb(0, 0, 64, 0.13);
+      --card-radius: 25px;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2fa 48%, #d4e3ed 100%);
+      font-family: "Poppins", "Roboto", Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+      animation: fadeInPage 0.7s ease;
+    }
+    @keyframes fadeInPage {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .student-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Sidebar + SPACING */
+    .sidebar {
+      width: 270px;
+      background: linear-gradient(180deg, var(--main-purple) 60%, var(--main-pink) 100%);
+      color: #fff;
+      padding: 2.4rem 1.15rem 2.2rem 1.15rem;
+      position: fixed;
+      height: 100vh;
+      left: 0; top: 0;
+      border-top-right-radius: 32px;
+      border-bottom-right-radius: 40px;
+      box-shadow: var(--sidebar-shadow);
+      z-index: 10;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem; /* key sidebar gap */
+    }
+    .sidebar-logo-link {
+      margin-bottom: 0;
+    }
+    .sidebar-logo-link img {
+      height: 58px; border-radius: 16px; background: #fff;
+      box-shadow: 0 4px 16px #00084033; padding: 5px;
+      transition: transform 0.18s, box-shadow 0.22s;
+      display: block;
+      margin: 0 auto;
+    }
+    .sidebar-logo-link:hover img {
+      animation: logoWiggle 0.5s;
+    }
+    @keyframes logoWiggle {
+      0%, 100% { transform: rotate(0deg);}
+      20% { transform: rotate(-10deg);}
+      40% { transform: rotate(7deg);}
+      60% { transform: rotate(-4deg);}
+      80% { transform: rotate(2deg);}
+    }
+
+    @keyframes fadeInUp {
+      from {transform: translateY(38px); opacity: 0;}
+      to   {transform: translateY(0); opacity: 1;}
+    }
+   
+
+    .sidebar-links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem; /* vertical gap between links */
+    }
+    .sidebar-link {
+      color: #eaeafe;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 1.13rem;
+      transition: background 0.27s cubic-bezier(.77,.2,.05,1), color 0.21s, box-shadow 0.19s, transform 0.19s, letter-spacing 0.14s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar-link i {
+      margin-right: 14px; font-size: 1.25rem; min-width: 26px;
+      color: #9eeaff;
+      transition: color 0.19s;
+    }
+    .sidebar-link:hover:not(.active-link):not(.logout-link) {
+      background: #112556;
+      color: #a8caff !important;
+      letter-spacing: 1px;
+      transform: translateX(7px) scale(1.04);
+    }
+    .sidebar-link.active-link {
+      color: #ffdd57 !important;
+      background: linear-gradient(95deg, #262680 38%, #0030c7 77%);
+      font-weight: 600;
+      box-shadow: 0 11px 40px -13px #00307830;
+      border: 2px solid #fff3cc27;
+      animation: itemPop 0.22s;
+    }
+    @keyframes itemPop {
+      0% {transform: scale(0.9);}
+      70% {transform: scale(1.10);}
+      100% {transform: scale(1);}
+    }
+    .sidebar-link:not(.active-link):not(:hover) {
+      background: transparent; color: #eaeafe; box-shadow: none;
+    }
+    .logout-link, .logout-link:hover, .logout-link.active-link {
+      color: #ffa4b1 !important; background: transparent !important;
+      font-weight: 500; box-shadow: none;
+    }
+
+    /* Top Right Profile Icon + Info Card "gap" */
+    .student-profile {
+      position: fixed;
+      top: 28px;
+      right: 36px;
+      z-index: 1010;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: box-shadow 0.21s;
+      gap: 0.7rem;
+    }
+    .student-profile img {
+      width: 53px;
+      height: 53px;
+      border-radius: 50%;
+      border: 3px solid var(--main-blue);
+      background: #fff;
+      box-shadow: 0 2px 10px #00084022;
+      transition: transform 0.16s;
+      display: block;
+    }
+    .student-profile:hover img {
+      transform: scale(1.10);
+      box-shadow: 0 10px 18px #00308035;
+    }
+    .student-info-card {
+      display: none;
+      position: fixed;
+      top: 93px;
+      right: 41px;
+      background: #fff;
+      border: 2px solid #1576b4;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px #00308021;
+      padding: 24px 26px 18px 22px;
+      min-width: 240px;
+      font-family: "Poppins", sans-serif;
+      font-size: 1.08rem;
+      color: #314060;
+      z-index: 1012;
+      animation: fadeCard 0.22s;
+      
+      flex-direction: column;
+      gap: 16px; /* gap between rows in the profile card */
+    }
+    @keyframes fadeCard {
+      from { opacity: 0; transform: translateY(-10px) scale(0.97);} 
+      to   { opacity: 1; transform: translateY(0) scale(1);}
+    }
+    .student-info-card p { margin: 0; }
+    .student-info-card a.btn {
+      background: #2563eb;
+      color: #fff;
+      border-radius: 6px;
+      margin-top: 13px;
+      font-weight: 600;
+      transition: background 0.17s;
+    }
+    .student-info-card a.btn:hover {
+      background: #183ca2;
+    }
+
+    /* Main Content Area (Dashboard) gaps */
+    #mainContent {
+      margin-left: 290px;
+      flex-grow: 1;
+      padding: 3.2rem 3.2rem 2.3rem 3.2rem;
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      animation: fadeInMain 0.5s;
+      display: flex;
+      flex-direction: column;
+      gap: 2.3rem; /* gap between headline / cards / content */
+    }
+    @keyframes fadeInMain { from { opacity: 0; transform: translateY(25px);} to { opacity: 1; transform: translateY(0);} }
+    @media (max-width: 900px) {
+      .sidebar { width: 68vw; min-width: 110px; border-radius: 0;}
+      #mainContent { margin-left: 0; padding: 1.5rem; }
+    }
+
+    /* Dashboard Cards + Gaps */
+	/* Animations for card entrance */
+	@keyframes cardBounceIn {
+	  0% { opacity: 0; transform: translateY(60px) scale(0.93) rotate(-5deg);}
+	  60% { opacity: 1; transform: translateY(-10px) scale(1.04) rotate(2deg);}
+	  100% { opacity: 1; transform: translateY(0) scale(1); }
+	}
+
+	.dashboard-cards {
+	  display: flex;
+	  gap: 2.7rem;
+	  flex-wrap: wrap;
+	  margin-bottom: 3rem;
+	}
+
+	.dashboard-card {
+	  flex: 1 1 245px;
+	  background: #fff;
+	  border-radius: 28px;
+	  box-shadow: 0 6px 32px -8px #08154c29;
+	  padding: 2.7rem 1.2rem 2.3rem 1.2rem;
+	  text-align: center;
+	  position: relative;
+	  overflow: hidden;
+	  border: 0;
+	  opacity: 0;
+	  animation: cardBounceIn 0.7s forwards;
+	  animation-delay: 0.15s; /* will be staggered for each card in HTML below */
+	  display: flex;
+	  flex-direction: column;
+	  gap: 1.2rem;
+	  transition: 
+	    box-shadow 0.23s cubic-bezier(.77,.2,.05,1), 
+	    transform 0.21s cubic-bezier(.8,.29,0,1), 
+	    background 0.24s, 
+	    border 0.17s;
+	}
+
+	/* Give each card a unique lively gradient, and icon color */
+	.dashboard-card--blue {
+	  background: linear-gradient(126deg, #53a0fd 0%, #003289 80%);
+	  color: #fff;
+	}
+	.dashboard-card--pink {
+	  background: linear-gradient(120deg, #ff93b7 0%, #541694 90%);
+	  color: #fff;
+	}
+	.dashboard-card--teal {
+	  background: linear-gradient(128deg, #22e7b2 0%, #15587e 85%);
+	  color: #fff;
+	}
+	.dashboard-card--yellow {
+	  background: linear-gradient(126deg, #fffaa4 0%, #ffe06c 80%);
+	  color: #223366;
+	}
+	.dashboard-card--purple {
+	  background: linear-gradient(126deg, #b57cf2, #28205a 90%);
+	  color: #fff;
+	}
+
+	/* Glowing accent blobs for highlight */
+	.dashboard-card::after {
+	  content: '';
+	  position: absolute;
+	  right: -40px; bottom: -38px;
+	  width: 80px; height: 80px;
+	  background: radial-gradient(circle, #fff 23%, transparent 85%);
+	  opacity: 0.16;
+	  z-index: 0;
+	  pointer-events: none;
+	}
+	.dashboard-card--blue::before {
+	  content: '';
+	  position: absolute;
+	  top: -36px; left: -12px;
+	  width: 70px; height: 70px;
+	  background: radial-gradient(circle, #49c0ff 33%, transparent 88%);
+	  opacity: 0.14;
+	  z-index: 0;
+	}
+	.dashboard-card--pink::before {
+	  content: '';
+	  position: absolute;
+	  top: -30px; left: -16px;
+	  width: 64px; height: 64px;
+	  background: radial-gradient(circle, #ff93b7 37%, transparent 79%);
+	  opacity: 0.19; z-index: 0;
+	}
+	.dashboard-card--teal::before {
+	  content: '';
+	  position: absolute;
+	  left: -25px; top: -22px;
+	  width: 50px; height: 50px;
+	  background: radial-gradient(circle, #43ffd6 44%, transparent 85%);
+	  opacity: 0.17; z-index: 0;
+	}
+
+	.dashboard-card:nth-child(1) { animation-delay: 0.07s;}
+	.dashboard-card:nth-child(2) { animation-delay: 0.18s;}
+	.dashboard-card:nth-child(3) { animation-delay: 0.29s;}
+	.dashboard-card:nth-child(4) { animation-delay: 0.41s;}
+
+	.dashboard-card:hover {
+	  box-shadow: 0 20px 60px 0 #302abf59, 0 2px 18px #006cff2a;
+	  transform: translateY(-13px) scale(1.055) rotate(-2deg);
+	  filter: brightness(1.07);
+	  z-index: 2;
+	  border: 0 !important;
+	}
+
+	.card-icon {
+	  font-size: 2.3rem;
+	  margin-bottom: .6rem;
+	  z-index: 1;
+	  display: inline-block;
+	  background: none;
+	  border-radius: 50%;
+	  transition: transform 0.2s, box-shadow 0.18s;
+	}
+
+	/* Give each icon a unique highlight color for visual diversity */
+	.dashboard-card--blue .card-icon { color: #9be4ff; text-shadow: 0 4px 22px #0bb7ff33; }
+	.dashboard-card--pink .card-icon { color: #ffc3e1; text-shadow: 0 4px 16px #ff399a14; }
+	.dashboard-card--teal .card-icon { color: #afffec; text-shadow: 0 3px 13px #3bffc34b; }
+	.dashboard-card--yellow .card-icon { color: #c4a900; text-shadow: 0 3px 10px #ffe27434; }
+	.dashboard-card--purple .card-icon { color: #dcbfff; text-shadow: 0 2px 10px #9871ffd1; }
+
+	.card-title {
+	  font-size: 1.15rem;
+	  font-weight: 700;
+	  letter-spacing: 0.07em;
+	  z-index: 1;
+	  margin-bottom: 0.2em;
+	}
+	.card-text, .dashboard-card ul, .dashboard-card div {
+	  z-index: 2;
+	  position: relative;
+	}
+	.card-text { font-size: 1.77rem; font-weight: bold; margin-top: 0.7rem; }
+	.dashboard-card ul {
+	  list-style: disc;
+	  padding-left: 26px;
+	  margin-bottom: 0.8em;
+	  color: #fff;
+	  font-size: 1.05rem;
+	  letter-spacing: 0.03em;
+	  font-weight: 500;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 0.45em;
+	}
+	.dashboard-card strong {
+	  color: #fff; 
+	  font-weight: 700;
+	  letter-spacing: 0.06em;
+	}
+	.dashboard-card div {
+	  text-align: left;
+	  margin-top: 0.4em;
+	  font-size: 1.09rem;
+	  color: #fff;
+	  letter-spacing: 0.02em;
+	}
+	@media (max-width: 900px) {
+	  .dashboard-cards { flex-direction: column; gap: 2.1rem; }
+	  .dashboard-card { min-width: 0; }
+	}
+
+    /* Scrollbar Styling */
+    .sidebar, body {
+      scrollbar-width: thin;
+      scrollbar-color: #b5c8f2 #f2f2ff;
+    }
+    .sidebar::-webkit-scrollbar, body::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+      background: #c0d0ee;
+      border-radius: 7px;
+    }
+    .text-center { text-align: center; }
+    .mb-4 { margin-bottom: 2rem !important; } 
+	
+	
+	/* Container for the courses list */
+	#enrolledCoursesList {
+	    max-width: 700px;
+	    margin: 0 auto;
+	}
+
+	/* Course card styling */
+	.course-card {
+	    background: linear-gradient(135deg, #4a90e2, #357ABD);
+	    color: white;
+	    border-radius: 16px;
+	    box-shadow: 0 12px 35px rgba(53, 88, 149, 0.6);
+	    cursor: default;
+	    user-select: none;
+	    transition: box-shadow 0.3s ease, transform 0.3s ease;
+	}
+
+	/* On hover, card lifts and brightens */
+	.course-card:hover {
+	    box-shadow: 0 20px 50px rgba(80, 120, 220, 0.8);
+	    transform: translateY(-6px) scale(1.02);
+	}
+
+	/* Course icon styles */
+	.course-icon {
+	    font-size: 2.4rem;
+	    color: #c2e7ff;
+	    text-shadow: 0 0 12px #88caffbb;
+	}
+
+	/* Course name styling */
+	.course-name {
+	    font-weight: 700;
+	    letter-spacing: 0.04em;
+	    font-size: 1.25rem;
+	}
+
+	/* Course description */
+	.course-description {
+	    font-size: 0.9rem;
+	    opacity: 0.85;
+	    margin-top: 4px;
+	    user-select: text;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 600px) {
+	    #enrolledCoursesList {
+	        max-width: 90vw;
+	        padding: 0 10px;
+	    }
+	    .course-card {
+	        padding: 1rem 1rem;
+	    }
+	    .course-name {
+	        font-size: 1.1rem;
+	    }
+	}
+	#dashboardCourseList {
+	  margin-top: 1rem;
+	  margin-bottom: 0;
+	  padding-left: 0;
+	  min-height: 40px;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 0.55rem;
+	  list-style: none;
+	}
+
+	#dashboardCourseList li {
+	  display: flex;
+	  align-items: center;
+	  font-size: 1.07rem;
+	  margin-bottom: 2px;
+	  border-radius: 11px;
+	  background: rgba(233,244,255,.5);
+	  padding: 6px 8px 6px 4px;
+	  box-shadow: 0 2px 8px #bed6f855;
+	}
+
+	.dashboard-course-badge {
+	  margin-right: 9px;
+	  min-width: 38px;
+	  text-align: center;
+	  border-radius: 13px;
+	}
+
+	.dashboard-course-name {
+	  font-size: 1.08rem;
+	  letter-spacing: 0.01em;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	#performanceSection {
+	  display: none; /* default, gets set to flex on load */
+	  min-height: 400px;
+	}
+
+	.performance-sidebar {
+	  width: 250px;
+	  background: #192057;
+	  color: #fff;
+	  padding: 32px 0 0 0;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 30px;
+	  border-top-left-radius: 13px;
+	  border-bottom-left-radius: 13px;
+	  box-shadow: 2px 0 16px #0c0c2140;
+	  min-height: 400px;
+	}
+
+	.sidebar-field {
+	  padding: 18px 32px;
+	  font-size: 18px;
+	  cursor: pointer;
+	  display: flex;
+	  align-items: center;
+	  gap: 16px;
+	  border-left: 5px solid transparent;
+	  transition: background 0.2s, border-color 0.2s;
+	}
+
+	.sidebar-field:hover, .sidebar-field.active {
+	  background: #2d3776;
+	  border-color: #ffe394;
+	}
+
+	.performance-main-panel {
+	  flex: 1;
+	  padding: 34px 36px;
+	  background: #f8fafd;
+	  border-radius: 0 12px 12px 0;
+	  min-height: 400px;
+	}
+

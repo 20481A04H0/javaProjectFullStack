@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Dashboard</title>
+</head>
+<body>
+    <h1>Debug Dashboard</h1>
+    <div id="debug-info"></div>
+    <p><strong>Name:</strong> <span id="adminName">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="adminEmail">Loading...</span></p>
+    <p><strong>Phone:</strong> <span id="adminPhone">Loading...</span></p>
+    
+    <script>
+        // Debug localStorage
+        const adminName = localStorage.getItem('adminName');
+        const adminEmail = localStorage.getItem('adminEmail');
+        const adminPhone = localStorage.getItem('adminPhone');
+        
+        document.getElementById('debug-info').innerHTML = `
+            <h3>LocalStorage Debug:</h3>
+            <p>adminName: ${adminName}</p>
+            <p>adminEmail: ${adminEmail}</p>
+            <p>adminPhone: ${adminPhone}</p>
+        `;
+        
+        if (adminName && adminEmail) {
+            document.getElementById('adminName').textContent = adminName;
+            document.getElementById('adminEmail').textContent = adminEmail;
+            document.getElementById('adminPhone').textContent = adminPhone || 'N/A';
+            document.getElementById('debug-info').innerHTML += '<p style="color: green;">✅ Session data found!</p>';
+        } else {
+            document.getElementById('debug-info').innerHTML += '<p style="color: red;">❌ No session data found!</p>';
+        }
+    </script>
+</body>
+</html>

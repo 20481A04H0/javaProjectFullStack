@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.student-login-wrapper {
+  height: 100vh;
+  display: flex;
+}
+
+/* LEFT: Study Background Image */
+.login-image {
+  flex: 1;
+  background: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c') no-repeat center center;
+
+  background-size: cover;
+  position: relative;
+  color: white;
+  padding: 40px;
+}
+
+.overlay-text {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  max-width: 400px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.overlay-text h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.overlay-text p {
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+/* RIGHT: Login Form */
+.login-form-section {
+  flex: 1;
+  background: linear-gradient(135deg, #ffffff, #e9f0ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-form {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border: 1px solid #ccc;
+}
+
+.login-btn {
+  transition: 0.3s ease;
+  font-weight: bold;
+}
+
+.login-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.03);
+}
+
+/* Media */
+@media (max-width: 768px) {
+  .login-image {
+    display: none;
+  }
+}
+#trainerSection {
+  position: static; /* prevent layout shift */
+  margin-top: 60px; /* if needed to create visual spacing */
+}

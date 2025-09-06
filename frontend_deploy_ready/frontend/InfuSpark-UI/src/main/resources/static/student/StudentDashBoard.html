@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Panel | InfuSpark</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="StudentDashBoard.css" />
+    <script src="/js/config.js"></script>
+</head>
+<body>
+  <div class="student-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Logo -->
+      <a href="#" class="sidebar-logo-link">
+        <img src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/08716313-e0fc-47a7-bc8a-4a1c17d2fa2a.png" alt="InfuSpark Logo"/>
+      </a>
+      <!-- Student Info Card -->
+	  <div class="student-profile" onclick="toggleStudentInfo()">
+	    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Student Profile Logo" />
+	 
+		</div>
+		<div class="student-info-card" id="studentInfoCard">
+		  <p><strong>Name:</strong> <span id="profileName"></span></p>
+		  <p><strong>Mail ID:</strong> <span id="profileEmail"></span></p>
+		  <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+		  <hr style="margin:11px 0;">
+		  <a href="/HomePage.html" class="btn btn-sm btn-danger btn-block" style="margin-top:10px;">Logout</a>
+		</div>
+		
+      <a class="sidebar-link active-link" onclick="setActiveLink(this); showStudentDashboard();"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a class="sidebar-link" onclick="setActiveLink(this); showStudentCourses();"><i class="fas fa-book"></i> Courses</a>
+      <a class="sidebar-link" onclick="setActiveLink(this); loadPerformanceDashboard();"><i class="fas fa-chart-line"></i> Performance</a>
+      <a href="HomePage.html" class="sidebar-link logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <!-- Main Content Placeholder -->
+	<div id="mainContent" class="content">
+		<div id="mainSection">
+		<h2 class="mb-4">Welcome, <span id="studentNameHeader">Student</span></h2>
+			    <p>This is your dashboard summary.</p>
+		</div>
+	  <div id="dashboardSection">
+	    
+	    <!-- Dashboard cards will be injected here or keep static -->
+	  </div>
+
+	  <div id="coursesSection" style="display:none;">
+	    <h2 class="mb-4">My Courses</h2>
+	    <div id="enrolledCoursesList"></div> <!-- Filled by JS -->
+	  </div>
+
+	  <div id="performanceSection" style="display:none;">
+		
+
+	    <h2 class="mb-4">My Performance</h2>
+	    <p>Performance details go here.</p>
+	  </div>
+	</div>
+  </div>
+  <!-- Sidebar Active Link JS -->
+  <script src="StudentDashBoard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ <!-- <script src="DashBoard.js"></script>
+  <script src="StudentCourse.js"></script>-->
+</body>
+</html>

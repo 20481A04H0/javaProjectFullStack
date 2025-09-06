@@ -1,0 +1,389 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+  height: 70px;
+  width: auto;
+}
+
+.nav-link {
+  color: #000 !important;
+  margin-right: 15px;
+  font-weight: 500;
+}
+
+.btn-student-login {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 6px 14px;
+}
+
+.hero-section {
+  background-image: url('https://sensorysurroundings.co.uk/cdn/shop/articles/Experiential_Learning_1_1024x1024.jpg?v=1709805959');
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 600px;
+  margin-left: 60px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #0056b3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #00449e;
+}
+
+.explore-courses-img{
+  height: 300px;
+  width: 400px;
+}
+
+.services-img{
+  height: 150px;
+  width: 317px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}  
+
+
+.icons-container{
+  margin: 8px;
+  padding-top: 8px;
+  padding-bottom: 14px;
+}
+
+.icon {
+  color: #00449e;
+  font-size: 25px;
+}
+.image-wrapper {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.hover-zoom {
+  transition: transform 0.4s ease-in-out;
+}
+
+.hover-zoom:hover {
+  transform: scale(1.05);
+}
+
+.custom-shadow {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+.image-wrapper {
+  background: linear-gradient(135deg, #f0f0f0, #e0f7ff);
+  padding: 15px;
+  border-radius: 12px;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.nav-link {
+  color: #000 !important;
+  margin-right: 15px;
+  font-weight: 500;
+}
+
+.btn-student-login {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 6px 14px;
+}
+
+.program-image {
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease;
+}
+
+.program-image:hover {
+  transform: scale(1.03);
+}
+
+.curriculum-card {
+  background-color: #ffffff;
+  border-left: 5px solid #0056b3;
+  padding: 30px;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: #0056b3;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  top: 8px;
+}
+
+.icon {
+  color: #00449e;
+  font-size: 20px;
+  margin-right: 10px;
+}
+.learning-path-section {
+  background-color: #ffffff;
+}
+
+.learning-card {
+  background-color: #f1f6ff;
+  border-radius: 12px;
+}
+
+.learning-card .card {
+  border: none;
+  border-radius: 10px;
+  background-color: #e8f0fe;
+}
+
+.learning-card .card-header {
+  background-color: transparent;
+  border: none;
+}
+
+.learning-card .btn {
+  font-weight: 500;
+  color: #0a58ca;
+  text-align: left;
+}
+
+.learning-card .btn:hover {
+  color: #06397b;
+  text-decoration: none;
+}
+
+.learning-card .card-body {
+  background-color: #ffffff;
+  border-radius: 0 0 10px 10px;
+  color: #333;
+}
+.section-header {
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #00449e;
+}
+.highlight-box {
+  background-color: #f0f8ff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.highlight-box ul {
+  list-style-type: square;
+  padding-left: 20px;
+}
+.highlight-icon {
+  font-size: 2.2rem;
+  color: #0056b3;
+}
+.benefit-box {
+  border-radius: 10px;
+  padding: 20px;
+  background: #eef5ff;
+  transition: transform 0.2s ease;
+}
+.benefit-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+.course-curriculum-section {
+  background: #f7faff;
+}
+
+.curriculum-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.curriculum-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.curriculum-card .icon-box {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.curriculum-card h5 {
+  font-weight: 600;
+  color: #333;
+}
+
+.curriculum-card p {
+  font-size: 15px;
+  color: #555;
+}
+.learning-path-section {
+  background: #fdfdfd;
+}
+
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #e0e0e0;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 1rem 2rem;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+}
+
+.timeline-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 45px;
+  height: 45px;
+  margin-left: -22.5px;
+  border-radius: 50%;
+  background: #007bff;
+  color: #fff;
+  text-align: center;
+  line-height: 45px;
+  font-size: 20px;
+  z-index: 1;
+  box-shadow: 0 0 0 5px #fdfdfd;
+}
+
+.timeline-content {
+  background: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-top: 25px;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.timeline-content:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 10px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding-left: 50px;
+    text-align: left;
+  }
+
+  .timeline-item.right {
+    left: 0;
+  }
+
+  .timeline-icon {
+    left: 10px;
+    margin-left: 0;
+  }
+}
+.why-choose-section {
+  background: #f9f9f9;
+}
+
+.choose-card {
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.choose-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-IqQuestLearningBeApplication<IQQuest_Learning-BE>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.iqquestlearning.be.IqQuestLearningBeApplication",
+            "projectName": "IQQuest_Learning-BE",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-IqQuestLearningUiApplication<IQQuest_Learning-UI>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.iqquestlearning.ui.IqQuestLearningUiApplication",
+            "projectName": "IQQuest_Learning-UI",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

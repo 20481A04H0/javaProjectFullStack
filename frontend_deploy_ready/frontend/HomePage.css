@@ -1,0 +1,172 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+.navbar-nav .nav-link::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: #0056b3;
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 2px;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+.btn-student-login {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 6px 14px;
+}
+
+.btn-student-login:hover {
+  background: #0056b3;
+  color: #fff;
+}
+.hero-section {
+  background-image: url('https://sensorysurroundings.co.uk/cdn/shop/articles/Experiential_Learning_1_1024x1024.jpg?v=1709805959');
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 600px;
+  margin-left: 60px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #0056b3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #00449e;
+}
+
+.explore-courses-img{
+  height: 300px;
+  width: 400px;
+}
+
+#services-img-1{
+  height: 170px;
+  width: cover;
+}
+
+#services-img-2{
+  height:170px;
+  width: cover;
+
+}#services-img-3{
+  height: 170px;
+  width: cover;
+
+}#services-img-4{
+  height: 170px;
+  width: cover;
+
+}#services-img-5{
+  height: 170px;
+  width: cover;
+
+}
+
+#services-img-6{
+  height: 170px;
+  width: cover;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}  
+
+
+.footer-share-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.social-icons-group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+}
+.social-fab {
+  position: absolute;
+  font-size: 1.7rem;
+  color: #555;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+  pointer-events: auto;
+  z-index: 2;
+}
+.footer-share-wrapper.active .social-fab {
+  opacity: 1;
+  transform: scale(1);
+}
+/* Position each icon in a circle */
+#icon-facebook { left: 50%; top: 0%; transform: translate(-50%, -50%) scale(0.5); }
+#icon-twitter { left: 100%; top: 50%; transform: translate(-50%, -50%) scale(0.5); }
+#icon-instagram { left: 50%; top: 100%; transform: translate(-50%, -50%) scale(0.5); }
+#icon-linkedin { left: 0%; top: 50%; transform: translate(-50%, -50%) scale(0.5); }
+.footer-share-wrapper.active #icon-facebook { transform: translate(-50%, -50%) scale(1); }
+.footer-share-wrapper.active #icon-twitter { transform: translate(-50%, -50%) scale(1); }
+.footer-share-wrapper.active #icon-instagram { transform: translate(-50%, -50%) scale(1); }
+.footer-share-wrapper.active #icon-linkedin { transform: translate(-50%, -50%) scale(1); }
+
+.share-icon {
+  color: #007bff;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  z-index: 3;
+}
+.share-icon:hover {
+  background: #f0f2f5;
+  color: #fff;
+}
