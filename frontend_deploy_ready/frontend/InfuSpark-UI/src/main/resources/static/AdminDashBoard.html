@@ -272,24 +272,24 @@
                         <h3>Update Student</h3>
                         <form id="updateStudentForm" novalidate>
                             <div class="mb-3">
-                                <label for="studentFirstName" class="form-label">FirstName</label>
-                                <input type="text" class="form-control" id="studentFirstName" value="${student.firstName}" required>
+                                <label for="updateStudentFirstName" class="form-label">FirstName</label>
+                                <input type="text" class="form-control" id="updateStudentFirstName" value="${student.firstName}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="studentLastName" class="form-label">LastName</label>
-                                <input type="text" class="form-control" id="studentLastName" value="${student.lastName}" required>
+                                <label for="updateStudentLastName" class="form-label">LastName</label>
+                                <input type="text" class="form-control" id="updateStudentLastName" value="${student.lastName}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="studentEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="studentEmail" value="${student.email}" required>
+                                <label for="updateStudentEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="updateStudentEmail" value="${student.email}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="studentPhone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="studentPhone" value="${student.phone}" required>
+                                <label for="updateStudentPhone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="updateStudentPhone" value="${student.phone}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="studentAddress" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="studentAddress" value="${student.address}" required>
+                                <label for="updateStudentAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="updateStudentAddress" value="${student.address}" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Update Student</button>
                             <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
@@ -302,11 +302,11 @@
                     e.preventDefault();
                     const updatedStudent = {
                         id: id,
-                        firstName: document.getElementById("studentFirstName").value.trim(),
-                        lastName: document.getElementById("studentLastName").value.trim(),
-                        email: document.getElementById("studentEmail").value.trim(),
-                        phone: document.getElementById("studentPhone").value.trim(),
-                        address: document.getElementById("studentAddress").value.trim()
+                        firstName: document.getElementById("updateStudentFirstName").value.trim(),
+                        lastName: document.getElementById("updateStudentLastName").value.trim(),
+                        email: document.getElementById("updateStudentEmail").value.trim(),
+                        phone: document.getElementById("updateStudentPhone").value.trim(),
+                        address: document.getElementById("updateStudentAddress").value.trim()
                     };
                     fetch('http://localhost:8080/api/student/update', {
                         method: "PUT",
@@ -331,7 +331,110 @@
     }
 
     function loadStudentForm() {
-        alert("Student form loading not implemented yet.");
+        const main = document.getElementById("mainContent");
+        const addFormHTML = `
+            <div class="container" id="addStudentSection">
+                <h3>Add New Student</h3>
+                <form id="addStudentForm" novalidate>
+                    <div class="mb-3">
+                        <label for="addStudentFirstName" class="form-label">FirstName</label>
+                        <input type="text" class="form-control" id="addStudentFirstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addStudentLastName" class="form-label">LastName</label>
+                        <input type="text" class="form-control" id="addStudentLastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addStudentEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="addStudentEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addStudentPhone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="addStudentPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addStudentAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="addStudentAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addStudentPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="addStudentPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Student</button>
+                    <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
+                </form>
+            </div>
+        `;
+        main.innerHTML = addFormHTML;
+
+        document.getElementById("addStudentForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const newStudent = {
+                firstName: document.getElementById("addStudentFirstName").value.trim(),
+                lastName: document.getElementById("addStudentLastName").value.trim(),
+                email: document.getElementById("addStudentEmail").value.trim(),
+                phone: document.getElementById("addStudentPhone").value.trim(),
+                address: document.getElementById("addStudentAddress").value.trim(),
+                password: document.getElementById("addStudentPassword").value.trim(),
+                courseIds: []
+            };
+            // Validate form data
+            if (newStudent.firstName.length < 2 || newStudent.firstName.length > 50) {
+                alert("First name must be between 2 and 50 characters");
+                return;
+            }
+            if (newStudent.lastName.length < 2 || newStudent.lastName.length > 50) {
+                alert("Last name must be between 2 and 50 characters");
+                return;
+            }
+            if (!/^[0-9]{10}$/.test(newStudent.phone)) {
+                alert("Phone number must be exactly 10 digits");
+                return;
+            }
+            if (newStudent.password.length < 6) {
+                alert("Password must be at least 6 characters");
+                return;
+            }
+            if (!newStudent.email.includes('@')) {
+                alert("Please enter a valid email address");
+                return;
+            }
+
+            console.log('Sending student data:', newStudent);
+            
+            fetch('http://localhost:8080/api/student/addStudent', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newStudent)
+            })
+            .then(async res => {
+                console.log('Response status:', res.status);
+                const responseText = await res.text();
+                console.log('Response body:', responseText);
+                
+                if (!res.ok) {
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        console.log('Error data:', errorData);
+                        let errorMsg = "Validation errors:\n";
+                        for (const [field, message] of Object.entries(errorData)) {
+                            errorMsg += `${field}: ${message}\n`;
+                        }
+                        alert(errorMsg);
+                    } catch {
+                        alert(`Error: ${responseText || 'Unknown error'}`);
+                    }
+                    return;
+                }
+                
+                alert("Student added successfully!");
+                loadStudents();
+            })
+            .catch(err => {
+                console.error("Network error:", err);
+                alert("Network error occurred. Please try again.");
+            });
+        });
     }
   </script>
   <script src="trainer-form.js?v=2"></script>

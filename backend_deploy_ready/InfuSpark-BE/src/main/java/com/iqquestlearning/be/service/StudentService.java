@@ -27,8 +27,12 @@ public class StudentService {
 	        student.setPhone(studentDto.getPhone());
 	        student.setAddress(studentDto.getAddress());
 	        student.setPassword(studentDto.getPassword());
-	        List<Course> courses = courseRepository.findAllById(studentDto.getCourseIds());
-	        student.setCourses(courses);
+	        
+	        if (studentDto.getCourseIds() != null && !studentDto.getCourseIds().isEmpty()) {
+	            List<Course> courses = courseRepository.findAllById(studentDto.getCourseIds());
+	            student.setCourses(courses);
+	        }
+	        
 	        studentRepository.save(student);
 	    }
 	 
