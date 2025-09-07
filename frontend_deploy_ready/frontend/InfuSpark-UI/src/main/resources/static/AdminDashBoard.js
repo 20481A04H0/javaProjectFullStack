@@ -166,6 +166,14 @@ function setActiveLink(clicked) {
 	    if (studentSection) studentSection.style.display = 'none';
 	}
 
+	function loadTrainers() {
+	    console.log("Trainers functionality not implemented yet");
+	}
+
+	function loadCourses() {
+	    console.log("Courses functionality not implemented yet");
+	}
+
 	function showAttendanceUploadForm() {
 	    hideAllSections();
 	    var mainContent = document.getElementById('mainContent');
@@ -210,3 +218,5 @@ function setActiveLink(clicked) {
 	        });
 	    }
 	}
+
+// Removed duplicate functions - they are now in HTML file

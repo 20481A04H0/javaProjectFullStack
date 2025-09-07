@@ -116,10 +116,84 @@
 
   <!-- Scripts -->
   <script>
-    // Students functionality
+    // Global variables
     let students = [];
     let currentStudentPage = 1;
     let studentsPerPage = 5;
+
+    function setActiveLink(clicked) {
+      document.querySelectorAll('.sidebar-link:not(.logout-link)').forEach(link => link.classList.remove('active-link'));
+      if (!clicked.classList.contains('logout-link')) {
+        clicked.classList.add('active-link');
+      }
+    }
+
+    function showDashboard() {
+      const content = `
+        <h2 class="mb-4">Dashboard Overview</h2>
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="card card-box card-students shadow-sm p-4">
+              <div class="card-icon"><i class="fas fa-users"></i></div>
+              <div class="card-title">Total Students</div>
+               <h6>Total Students: <span id="studentsCount">0</span></h6>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card card-box card-trainers shadow-sm p-4">
+              <div class="card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+              <div class="card-title">Active Trainers</div>
+        <h6>Total Trainers: <span id="trainersCount">0</span></h6>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card card-box card-courses shadow-sm p-4">
+              <div class="card-icon"><i class="fas fa-book-open"></i></div>
+              <div class="card-title">Running Courses</div>
+              <h6>Total Courses: <span id="coursesCount">0</span></h6>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById("mainContent").innerHTML = content;
+      
+      // Load counts
+      fetch('http://localhost:8080/api/course/getCoursesCount')
+        .then(response => response.json())
+        .then(data => {
+          const element = document.getElementById('coursesCount');
+          if (element) element.textContent = data;
+        })
+        .catch(error => {
+          console.error("Error fetching courses:", error);
+          const element = document.getElementById('coursesCount');
+          if (element) element.textContent = "Error";
+        });
+      
+      fetch('http://localhost:8080/api/student/getStudentsCount')
+        .then(response => response.json())
+        .then(data => {
+          const element = document.getElementById('studentsCount');
+          if (element) element.textContent = data;
+        })
+        .catch(error => {
+          console.error("Error fetching students:", error);
+          const element = document.getElementById('studentsCount');
+          if (element) element.textContent = "Error";
+        });
+      
+      fetch('http://localhost:8080/api/trainer/getAllTrainers')
+        .then(response => response.json())
+        .then(data => {
+          const element = document.getElementById('trainersCount');
+          if (element) element.textContent = data.length;
+        })
+        .catch(error => {
+          console.error("Error fetching trainers:", error);
+          const element = document.getElementById('trainersCount');
+          if (element) element.textContent = "Error";
+        });
+    }
 
     function loadStudents() {
         console.log("Students link clicked");
@@ -141,6 +215,7 @@
                           <th>Email</th>
                           <th>Phone</th>
                           <th>Address</th>
+                          <th>Courses</th>
                           <th>Actions</th>
                         </tr>
                     </thead>
@@ -183,6 +258,7 @@
         for (let i = startIndex; i < endIndex; i++) {
             const student = students[i];
             const row = document.createElement('tr');
+            const courseNames = student.courses ? student.courses.map(c => c.name).join(', ') : 'None';
             row.innerHTML = `
                 <td>${i + 1}</td>
                 <td>${student.id}</td>
@@ -191,6 +267,7 @@
                 <td>${student.email}</td>
                 <td>${student.phone}</td>
                 <td>${student.address || "-"}</td>
+                <td>${courseNames}</td>
                 <td>
                     <button class="btn btn-info btn-sm" onclick="openUpdateStudentForm('${student.id}')">Update</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.id}')">Delete</button>
@@ -198,8 +275,6 @@
             `;
             tableBody.appendChild(row);
         }
-        const section = document.getElementById('studentSection');
-        if (section) section.style.display = 'block';
     }
 
     function setupStudentPagination() {
@@ -244,6 +319,180 @@
         setupStudentPagination();
     }
 
+    function loadStudentForm() {
+        fetch('http://localhost:8080/api/course/allCourse')
+            .then(res => res.json())
+            .then(courses => {
+                const main = document.getElementById("mainContent");
+                const courseOptions = courses.map(course => 
+                    `<option value="${course.id}">${course.name}</option>`
+                ).join('');
+                
+                const addFormHTML = `
+                    <div class="container" id="addStudentSection">
+                        <h3>Add New Student</h3>
+                        <form id="addStudentForm" novalidate>
+                            <div class="mb-3">
+                                <label for="addStudentFirstName" class="form-label">FirstName</label>
+                                <input type="text" class="form-control" id="addStudentFirstName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentLastName" class="form-label">LastName</label>
+                                <input type="text" class="form-control" id="addStudentLastName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="addStudentEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentPhone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="addStudentPhone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="addStudentAddress" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="addStudentPassword" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStudentCourses" class="form-label">Select Courses (Optional)</label>
+                                <select multiple class="form-control" id="addStudentCourses" style="height: 120px;">
+                                    ${courseOptions}
+                                </select>
+                                <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple courses</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Student</button>
+                            <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
+                        </form>
+                    </div>
+                `;
+                main.innerHTML = addFormHTML;
+
+                document.getElementById("addStudentForm").addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const courseSelect = document.getElementById("addStudentCourses");
+                    const selectedCourses = Array.from(courseSelect.selectedOptions).map(option => parseInt(option.value));
+                    
+                    const newStudent = {
+                        firstName: document.getElementById("addStudentFirstName").value.trim(),
+                        lastName: document.getElementById("addStudentLastName").value.trim(),
+                        email: document.getElementById("addStudentEmail").value.trim(),
+                        phone: document.getElementById("addStudentPhone").value.trim(),
+                        address: document.getElementById("addStudentAddress").value.trim(),
+                        password: document.getElementById("addStudentPassword").value.trim(),
+                        courseIds: selectedCourses
+                    };
+                    
+                    fetch('http://localhost:8080/api/student/addStudent', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(newStudent)
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error("Failed to add student");
+                        alert("Student added successfully!");
+                        loadStudents();
+                    })
+                    .catch(err => {
+                        console.error("Error adding student:", err);
+                        alert("Error adding student.");
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching courses:', err);
+                alert('Error loading courses. Please try again.');
+            });
+    }
+
+    function openUpdateStudentForm(id) {
+        Promise.all([
+            fetch(`http://localhost:8080/api/student/${id}`).then(res => res.json()),
+            fetch('http://localhost:8080/api/course/allCourse').then(res => res.json())
+        ])
+        .then(([student, courses]) => {
+            const studentCourseIds = student.courses ? student.courses.map(c => c.id) : [];
+            const courseOptions = courses.map(course => 
+                `<option value="${course.id}" ${studentCourseIds.includes(course.id) ? 'selected' : ''}>${course.name}</option>`
+            ).join('');
+            
+            const formHTML = `
+                <div class="container" id="updateStudentSection">
+                    <h3>Update Student</h3>
+                    <form id="updateStudentForm" novalidate>
+                        <div class="mb-3">
+                            <label for="updateStudentFirstName" class="form-label">FirstName</label>
+                            <input type="text" class="form-control" id="updateStudentFirstName" value="${student.firstName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateStudentLastName" class="form-label">LastName</label>
+                            <input type="text" class="form-control" id="updateStudentLastName" value="${student.lastName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateStudentEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="updateStudentEmail" value="${student.email}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateStudentPhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="updateStudentPhone" value="${student.phone}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateStudentAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="updateStudentAddress" value="${student.address}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateStudentCourses" class="form-label">Select Courses</label>
+                            <select multiple class="form-control" id="updateStudentCourses" style="height: 120px;">
+                                ${courseOptions}
+                            </select>
+                            <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple courses</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Student</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById("mainContent").innerHTML = formHTML;
+
+            document.getElementById("updateStudentForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const courseSelect = document.getElementById("updateStudentCourses");
+                const selectedCourses = Array.from(courseSelect.selectedOptions).map(option => parseInt(option.value));
+                
+                const updatedStudent = {
+                    id: id,
+                    firstName: document.getElementById("updateStudentFirstName").value.trim(),
+                    lastName: document.getElementById("updateStudentLastName").value.trim(),
+                    email: document.getElementById("updateStudentEmail").value.trim(),
+                    phone: document.getElementById("updateStudentPhone").value.trim(),
+                    address: document.getElementById("updateStudentAddress").value.trim(),
+                    courseIds: selectedCourses
+                };
+                
+                fetch('http://localhost:8080/api/student/update', {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedStudent)
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to update student");
+                    alert("Student updated successfully!");
+                    loadStudents();
+                })
+                .catch(err => {
+                    console.error("Error updating student:", err);
+                    alert("Error updating student.");
+                });
+            });
+        })
+        .catch(err => {
+            console.error("Error loading student for update:", err);
+            alert("Could not load student details.");
+        });
+    }
+
     function deleteStudent(studentId) {
         if (!confirm("Are you sure you want to delete this student?")) return;
         fetch(`http://localhost:8080/api/student/delete/${studentId}`, {
@@ -260,185 +509,58 @@
         });
     }
 
-    function openUpdateStudentForm(id) {
-        fetch(`http://localhost:8080/api/student/${id}`)
-            .then(res => {
-                if (!res.ok) throw new Error("Failed to fetch student details");
-                return res.json();
-            })
-            .then(student => {
-                const formHTML = `
-                    <div class="container" id="updateStudentSection">
-                        <h3>Update Student</h3>
-                        <form id="updateStudentForm" novalidate>
-                            <div class="mb-3">
-                                <label for="updateStudentFirstName" class="form-label">FirstName</label>
-                                <input type="text" class="form-control" id="updateStudentFirstName" value="${student.firstName}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="updateStudentLastName" class="form-label">LastName</label>
-                                <input type="text" class="form-control" id="updateStudentLastName" value="${student.lastName}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="updateStudentEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="updateStudentEmail" value="${student.email}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="updateStudentPhone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="updateStudentPhone" value="${student.phone}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="updateStudentAddress" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="updateStudentAddress" value="${student.address}" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update Student</button>
-                            <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
-                        </form>
-                    </div>
-                `;
-                document.getElementById("mainContent").innerHTML = formHTML;
-
-                document.getElementById("updateStudentForm").addEventListener("submit", function (e) {
-                    e.preventDefault();
-                    const updatedStudent = {
-                        id: id,
-                        firstName: document.getElementById("updateStudentFirstName").value.trim(),
-                        lastName: document.getElementById("updateStudentLastName").value.trim(),
-                        email: document.getElementById("updateStudentEmail").value.trim(),
-                        phone: document.getElementById("updateStudentPhone").value.trim(),
-                        address: document.getElementById("updateStudentAddress").value.trim()
-                    };
-                    fetch('http://localhost:8080/api/student/update', {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(updatedStudent)
-                    })
-                    .then(res => {
-                        if (!res.ok) throw new Error("Failed to update student");
-                        alert("Student updated successfully!");
-                        loadStudents();
-                    })
-                    .catch(err => {
-                        console.error("Error updating student:", err);
-                        alert("Error updating student.");
-                    });
-                });
-            })
-            .catch(err => {
-                console.error("Error loading student for update:", err);
-                alert("Could not load student details.");
-            });
+    function loadTrainers() {
+        console.log("Loading trainers...");
+        // This will be implemented by trainer-form.js
     }
 
-    function loadStudentForm() {
-        const main = document.getElementById("mainContent");
-        const addFormHTML = `
-            <div class="container" id="addStudentSection">
-                <h3>Add New Student</h3>
-                <form id="addStudentForm" novalidate>
-                    <div class="mb-3">
-                        <label for="addStudentFirstName" class="form-label">FirstName</label>
-                        <input type="text" class="form-control" id="addStudentFirstName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addStudentLastName" class="form-label">LastName</label>
-                        <input type="text" class="form-control" id="addStudentLastName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addStudentEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="addStudentEmail" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addStudentPhone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="addStudentPhone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addStudentAddress" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="addStudentAddress" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addStudentPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="addStudentPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Student</button>
-                    <button type="button" class="btn btn-secondary" onclick="loadStudents()">Cancel</button>
-                </form>
-            </div>
-        `;
-        main.innerHTML = addFormHTML;
-
-        document.getElementById("addStudentForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const newStudent = {
-                firstName: document.getElementById("addStudentFirstName").value.trim(),
-                lastName: document.getElementById("addStudentLastName").value.trim(),
-                email: document.getElementById("addStudentEmail").value.trim(),
-                phone: document.getElementById("addStudentPhone").value.trim(),
-                address: document.getElementById("addStudentAddress").value.trim(),
-                password: document.getElementById("addStudentPassword").value.trim(),
-                courseIds: []
-            };
-            // Validate form data
-            if (newStudent.firstName.length < 2 || newStudent.firstName.length > 50) {
-                alert("First name must be between 2 and 50 characters");
-                return;
-            }
-            if (newStudent.lastName.length < 2 || newStudent.lastName.length > 50) {
-                alert("Last name must be between 2 and 50 characters");
-                return;
-            }
-            if (!/^[0-9]{10}$/.test(newStudent.phone)) {
-                alert("Phone number must be exactly 10 digits");
-                return;
-            }
-            if (newStudent.password.length < 6) {
-                alert("Password must be at least 6 characters");
-                return;
-            }
-            if (!newStudent.email.includes('@')) {
-                alert("Please enter a valid email address");
-                return;
-            }
-
-            console.log('Sending student data:', newStudent);
-            
-            fetch('http://localhost:8080/api/student/addStudent', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newStudent)
-            })
-            .then(async res => {
-                console.log('Response status:', res.status);
-                const responseText = await res.text();
-                console.log('Response body:', responseText);
-                
-                if (!res.ok) {
-                    try {
-                        const errorData = JSON.parse(responseText);
-                        console.log('Error data:', errorData);
-                        let errorMsg = "Validation errors:\n";
-                        for (const [field, message] of Object.entries(errorData)) {
-                            errorMsg += `${field}: ${message}\n`;
-                        }
-                        alert(errorMsg);
-                    } catch {
-                        alert(`Error: ${responseText || 'Unknown error'}`);
-                    }
-                    return;
-                }
-                
-                alert("Student added successfully!");
-                loadStudents();
-            })
-            .catch(err => {
-                console.error("Network error:", err);
-                alert("Network error occurred. Please try again.");
-            });
-        });
+    function loadCourses() {
+        console.log("Loading courses...");
+        // This will be implemented by courses-section.js
     }
+
+    function toggleAdminInfo() {
+        const infoCard = document.getElementById("adminInfo");
+        infoCard.style.display = (infoCard.style.display === "block") ? "none" : "block";
+    }
+
+    function logout() {
+        localStorage.removeItem('adminName');
+        localStorage.removeItem('adminEmail');
+        localStorage.removeItem('adminPhone');
+        window.location.href = 'AdminLogin.html';
+    }
+
+    // Initialize dashboard on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        showDashboard();
+        
+        // Load admin info
+        const adminName = localStorage.getItem('adminName') || 'Admin';
+        const adminEmail = localStorage.getItem('adminEmail') || 'admin@infuspark.com';
+        const adminPhone = localStorage.getItem('adminPhone') || 'N/A';
+        
+        const nameElement = document.getElementById('adminName');
+        const emailElement = document.getElementById('adminEmail');
+        const phoneElement = document.getElementById('adminPhone');
+        
+        if (nameElement) nameElement.textContent = adminName;
+        if (emailElement) emailElement.textContent = adminEmail;
+        if (phoneElement) phoneElement.textContent = adminPhone;
+    });
+
+    // Close admin info when clicking outside
+    document.addEventListener('click', function(event) {
+        const profile = document.querySelector('.admin-profile');
+        const infoCard = document.getElementById("adminInfo");
+        if (profile && !profile.contains(event.target)) {
+            if (infoCard) infoCard.style.display = 'none';
+        }
+    });
   </script>
+  <script src="fix-errors.js"></script>
+  <script src="AdminDashBoard.js?v=3"></script>
   <script src="trainer-form.js?v=2"></script>
   <script src="courses-section.js?v=2"></script>
-  <script src="AdminDashBoard.js?v=2"></script>
 </body>
 </html>
