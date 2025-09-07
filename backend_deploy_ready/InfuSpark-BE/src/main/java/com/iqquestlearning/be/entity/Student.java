@@ -20,7 +20,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Data
-@Table(name="studentData")
+@Table(name="student_data")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -114,7 +114,7 @@ public class Student {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
-	    name = "student_courses",
+	    name = "student_course",
 	    joinColumns = @JoinColumn(name = "student_id"),
 	    inverseJoinColumns = @JoinColumn(name = "course_id")
 	)
