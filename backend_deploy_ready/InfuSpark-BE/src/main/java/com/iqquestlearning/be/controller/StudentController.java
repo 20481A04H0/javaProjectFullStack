@@ -46,8 +46,12 @@ public class StudentController {
             return ResponseEntity.badRequest().body(errors);  
         }
 
-        studentService.addStudent(student);
-        return ResponseEntity.ok("Student saved successfully");
+        try {
+            Student savedStudent = studentService.addStudent(student);
+            return ResponseEntity.ok(savedStudent);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", "Error adding student: " + e.getMessage()));
+        }
     }
 	
 	@GetMapping("/getStudentsCount")
@@ -100,17 +104,8 @@ public class StudentController {
 	
 	@GetMapping("/getAllStudents")
 	public List<Student> getAllStudents() {
-	    List<Student> students = studentRepository.findAll();
-	    return students.stream()
-	        .map(s -> new Student(
-	                s.getId(),
-	                s.getLastName(),
-	                s.getFirstName(),
-	                s.getEmail(),
-	                s.getPhone(),
-	                s.getAddress()
-	        ))
-	        .collect(Collectors.toList());
+	    // Return full student objects with courses included
+	    return studentRepository.findAll();
 	}
 
 	
@@ -119,16 +114,8 @@ public class StudentController {
     public ResponseEntity<?> getStudentById(@PathVariable Long id) {
         Optional<Student> studentOpt = studentRepository.findById(id);
         if (studentOpt.isPresent()) {
-            Student s = studentOpt.get();
-            Student dto = new Student(
-                s.getId(),
-                s.getFirstName(),
-                s.getLastName(),
-                s.getEmail(),
-                s.getPhone(),
-                s.getAddress()
-            );
-            return ResponseEntity.ok(dto);
+            // Return full student object with courses included
+            return ResponseEntity.ok(studentOpt.get());
         } else {
             return ResponseEntity.status(404).body(Map.of("message", "Student not found"));
         }
@@ -136,21 +123,13 @@ public class StudentController {
     
     
     @PutMapping("/update")
-    public ResponseEntity<?> updateStudent(@RequestBody Student dto) {
-        Optional<Student> studentOpt = studentRepository.findById(dto.getId());
-        if (studentOpt.isEmpty()) {
-            return ResponseEntity.status(404).body(Map.of("message", "Student not found"));
+    public ResponseEntity<?> updateStudent(@RequestBody StudentRequestDTO dto) {
+        try {
+            Student updatedStudent = studentService.updateStudent(dto);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
         }
-        Student s = studentOpt.get();
-        s.setFirstName(dto.getFirstName());
-        
-        s.setLastName(dto.getLastName());
-        s.setEmail(dto.getEmail());
-        s.setPhone(dto.getPhone());
-        s.setAddress(dto.getAddress());
-        studentRepository.save(s);
-
-        return ResponseEntity.ok(Map.of("message", "Student updated!"));
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable Long id) {

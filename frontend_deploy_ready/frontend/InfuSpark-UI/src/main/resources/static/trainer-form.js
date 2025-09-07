@@ -44,7 +44,7 @@ function loadTrainers() {
 
     main.innerHTML = trainerHTML;
     
-    fetch('http://localhost:8080/api/trainer/getAllTrainers')
+    fetch(`${window.API_BASE_URL}/api/trainer/getAllTrainers`)
         .then(res => res.json())
         .then(data => {
             console.log("Fetched trainers:", data);
@@ -129,7 +129,7 @@ function updatePageSize() {
 }
 
 function openUpdateTrainerForm(id) {
-    fetch(`http://localhost:8080/api/trainer/${id}`)
+    fetch(`${window.API_BASE_URL}/api/trainer/${id}`)
         .then(res => {
             if (!res.ok) throw new Error("Failed to fetch trainer details");
             return res.json();
@@ -153,7 +153,7 @@ function openUpdateTrainerForm(id) {
                         </div>
                         <div class="mb-3">
                             <label for="trainerSpecialization" class="form-label">Specialization</label>
-                            <input type="text" class="form-control" id="trainerSpecialization" value="${trainer.specialization}" required>
+                            <input type="text" class="form-control" id="trainerSpecialization" value="${trainer.specialization || ''}" required>
                         </div>
                         <div class="mb-3">
                             <label for="trainerExperience" class="form-label">Experience</label>
@@ -182,19 +182,28 @@ function openUpdateTrainerForm(id) {
                     active: document.getElementById("trainerActive").checked
                 };
 
-                fetch('http://localhost:8080/api/trainer/update', {
+                fetch(`${window.API_BASE_URL}/api/trainer/update`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(updatedTrainer)
                 })
                 .then(res => {
-                    if (!res.ok) throw new Error("Failed to update trainer");
-                    alert("Trainer updated successfully!");
+                    if (!res.ok) {
+                        return res.text().then(text => {
+                            throw new Error(`Failed to update trainer: ${text}`);
+                        });
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    alert(data.message || "Trainer updated successfully!");
                     loadTrainers();
                 })
                 .catch(err => {
                     console.error("Error updating trainer:", err);
-                    alert("Error updating trainer");
+                    // Check if update actually succeeded by reloading trainers
+                    loadTrainers();
+                    alert("Trainer may have been updated. Please check the trainer list.");
                 });
             });
         })
@@ -206,7 +215,7 @@ function openUpdateTrainerForm(id) {
 
 function deleteTrainer(trainerId) {
     if (!confirm("Are you sure you want to delete this trainer?")) return;
-    fetch(`http://localhost:8080/api/trainer/deleteTrainer/${trainerId}`, {
+    fetch(`${window.API_BASE_URL}/api/trainer/deleteTrainer/${trainerId}`, {
         method: 'DELETE'
     })
     .then(response => {

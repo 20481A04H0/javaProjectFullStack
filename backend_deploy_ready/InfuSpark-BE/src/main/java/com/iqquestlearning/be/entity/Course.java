@@ -32,12 +32,13 @@ public class Course {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "trainer_course",
         joinColumns = @JoinColumn(name = "course_id"),
         inverseJoinColumns = @JoinColumn(name = "trainer_id")
     )
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Trainer> trainers;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)

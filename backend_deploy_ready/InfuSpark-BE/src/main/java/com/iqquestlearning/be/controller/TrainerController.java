@@ -58,15 +58,30 @@ public class TrainerController {
 		return ResponseEntity.ok(trainers);
 	}
     @GetMapping("/{id}")
-	   public ResponseEntity<Trainer> getTrainerById(@PathVariable Long id) {
+	   public ResponseEntity<?> getTrainerById(@PathVariable Long id) {
 	       return trainerRepository.findById(id)
-	               .map(ResponseEntity::ok)
+	               .map(trainer -> {
+	                   TrainerResponseDTO dto = new TrainerResponseDTO();
+	                   dto.setId(trainer.getId());
+	                   dto.setName(trainer.getName());
+	                   dto.setEmail(trainer.getEmail());
+	                   dto.setPhone(trainer.getPhone());
+	                   dto.setSpecialization(trainer.getExpertise());
+	                   dto.setExperience(trainer.getExperience());
+	                   dto.setActive(trainer.getActive());
+	                   return ResponseEntity.ok(dto);
+	               })
 	               .orElse(ResponseEntity.notFound().build());
 	   }
 
 	   @PutMapping("/update")
-	   public ResponseEntity<Trainer> updateTrainer(@RequestBody Trainer updatedTrainer) {
-	       return ResponseEntity.ok(trainerRepository.save(updatedTrainer));
+	   public ResponseEntity<?> updateTrainer(@RequestBody TrainerRequestDTO trainerDto) {
+	       try {
+	           Trainer updatedTrainer = trainerService.updateTrainer(trainerDto);
+	           return ResponseEntity.ok(Map.of("message", "Trainer updated successfully", "trainer", updatedTrainer));
+	       } catch (RuntimeException e) {
+	           return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+	       }
 	   }
 	   @DeleteMapping("/deleteTrainer/{id}")
 	   public ResponseEntity<?> deleteTrainer(@PathVariable Long id) {

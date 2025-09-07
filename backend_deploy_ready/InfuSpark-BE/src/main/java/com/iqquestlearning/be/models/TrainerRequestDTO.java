@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class TrainerRequestDTO {
 
+    private Long id; // For updates
+
     @NotBlank(message = "Name is required")
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters")
     private String name;

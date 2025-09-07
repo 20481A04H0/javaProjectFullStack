@@ -20,6 +20,7 @@ import com.iqquestlearning.be.entity.Course;
 import com.iqquestlearning.be.entity.Trainer;
 import com.iqquestlearning.be.models.CourseDto;
 import com.iqquestlearning.be.models.CourseRequestDTO;
+import com.iqquestlearning.be.models.SimpleCourseDTO;
 import com.iqquestlearning.be.repository.CourseRepository;
 import com.iqquestlearning.be.service.CourseService;
 
@@ -121,7 +122,16 @@ public class CourseController {
     
     // ✅ Get All Courses for Frontend (matches frontend API calls)
     @GetMapping("/allCourse")
-    public List<Course> getAllCoursesForFrontend() {
-        return courseService.getAllCoursesForFrontend();
+    public ResponseEntity<List<SimpleCourseDTO>> getAllCoursesForFrontend() {
+        try {
+            List<Course> courses = courseRepository.findAll();
+            List<SimpleCourseDTO> simpleCourses = courses.stream()
+                .map(course -> new SimpleCourseDTO(course.getId(), course.getName()))
+                .toList();
+            return ResponseEntity.ok(simpleCourses);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

@@ -56,4 +56,22 @@ public class TrainerService {
     public void deleteTrainerByIdFromCourse(Long trainerId) {
         trainerRepository.deleteById(trainerId);
     }
+    
+    @Transactional
+    public Trainer updateTrainer(TrainerRequestDTO trainerDto) {
+        Optional<Trainer> trainerOpt = trainerRepository.findById(trainerDto.getId());
+        if (trainerOpt.isEmpty()) {
+            throw new RuntimeException("Trainer not found");
+        }
+        
+        Trainer trainer = trainerOpt.get();
+        trainer.setName(trainerDto.getName());
+        trainer.setEmail(trainerDto.getEmail());
+        trainer.setPhone(trainerDto.getPhone());
+        trainer.setExpertise(trainerDto.getSpecialization());
+        trainer.setExperience(trainerDto.getExperience());
+        trainer.setActive(trainerDto.isActive());
+        
+        return trainerRepository.save(trainer);
+    }
 }

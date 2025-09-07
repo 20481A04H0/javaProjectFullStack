@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Size;
 
 public class StudentRequestDTO {
 
+    private Long id; // For updates
+
     @NotBlank(message = "First name is required")
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     private String firstName;
@@ -91,5 +93,13 @@ public class StudentRequestDTO {
 
     public void setCourseIds(List<Long> courseIds) {
         this.courseIds = courseIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

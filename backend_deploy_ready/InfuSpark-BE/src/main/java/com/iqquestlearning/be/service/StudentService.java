@@ -19,7 +19,7 @@ public class StudentService {
 	private CourseRepository courseRepository;
 	@Autowired 
 	private StudentRepository studentRepository;
-	 public void addStudent(StudentRequestDTO studentDto) {
+	 public Student addStudent(StudentRequestDTO studentDto) {
 	        Student student = new Student();
 	        student.setFirstName(studentDto.getFirstName());
 	        student.setLastName(studentDto.getLastName());
@@ -33,7 +33,7 @@ public class StudentService {
 	            student.setCourses(courses);
 	        }
 	        
-	        studentRepository.save(student);
+	        return studentRepository.save(student);
 	    }
 	 
 	 
@@ -49,5 +49,31 @@ public class StudentService {
 	        Student student = studentRepository.findByEmail(email);
 	        if (student == null) return List.of();
 	        return student.getCourses(); 
+	    }
+	    
+	    @Transactional
+	    public Student updateStudent(StudentRequestDTO studentDto) {
+	        Optional<Student> studentOpt = studentRepository.findById(studentDto.getId());
+	        if (studentOpt.isEmpty()) {
+	            throw new RuntimeException("Student not found");
+	        }
+	        
+	        Student student = studentOpt.get();
+	        student.setFirstName(studentDto.getFirstName());
+	        student.setLastName(studentDto.getLastName());
+	        student.setEmail(studentDto.getEmail());
+	        student.setPhone(studentDto.getPhone());
+	        student.setAddress(studentDto.getAddress());
+	        
+	        // Update courses if provided
+	        if (studentDto.getCourseIds() != null && !studentDto.getCourseIds().isEmpty()) {
+	            List<Course> courses = courseRepository.findAllById(studentDto.getCourseIds());
+	            student.setCourses(courses);
+	        } else {
+	            // Clear courses if no courseIds provided
+	            student.setCourses(List.of());
+	        }
+	        
+	        return studentRepository.save(student);
 	    }
 }
