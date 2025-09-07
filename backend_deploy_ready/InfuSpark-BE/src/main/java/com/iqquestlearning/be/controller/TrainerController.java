@@ -77,8 +77,8 @@ public class TrainerController {
 	   @PutMapping("/update")
 	   public ResponseEntity<?> updateTrainer(@RequestBody TrainerRequestDTO trainerDto) {
 	       try {
-	           Trainer updatedTrainer = trainerService.updateTrainer(trainerDto);
-	           return ResponseEntity.ok(Map.of("message", "Trainer updated successfully", "trainer", updatedTrainer));
+	           trainerService.updateTrainer(trainerDto);
+	           return ResponseEntity.ok(Map.of("message", "Trainer updated successfully"));
 	       } catch (RuntimeException e) {
 	           return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
 	       }

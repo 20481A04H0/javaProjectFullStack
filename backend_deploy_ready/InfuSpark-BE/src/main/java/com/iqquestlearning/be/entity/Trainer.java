@@ -44,6 +44,7 @@ public class Trainer {
     private Boolean active = true;
 
     @ManyToMany(mappedBy = "trainers")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Course> courses;
 }
 
